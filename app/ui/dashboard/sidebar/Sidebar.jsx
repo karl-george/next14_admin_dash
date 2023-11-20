@@ -8,6 +8,7 @@ import {
   MdPeople,
   MdOutlineSettings,
   MdHelpCenter,
+  MdLogout,
 } from 'react-icons/md';
 import styles from './sidebar.module.css';
 import MenuLink from './menuLink/MenuLink';
@@ -102,6 +103,10 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
+      <button className={styles.logout}>
+        <MdLogout />
+        Logout
+      </button>
     </div>
   );
 };
