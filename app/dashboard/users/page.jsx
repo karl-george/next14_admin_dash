@@ -7,8 +7,9 @@ import Link from 'next/link';
 
 const page = async ({ searchParams }) => {
   const q = searchParams?.q || '';
+  const page = searchParams?.page || 1;
 
-  const users = await fetchUsers(q);
+  const { numUsers, users } = await fetchUsers(q, page);
 
   return (
     <div className={styles.container}>
@@ -66,7 +67,7 @@ const page = async ({ searchParams }) => {
           ))}
         </tbody>
       </table>
-      <Pagination />
+      <Pagination numUsers={numUsers} />
     </div>
   );
 };
