@@ -15,7 +15,7 @@
 .form textarea,
 .form select {
   padding: 30px;
-  background-color: transparent;
+  background-color: var(--bg);
   color: var(--text);
   border-radius: 5px;
   margin-bottom: 30px;
