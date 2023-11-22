@@ -67,7 +67,7 @@ const page = async ({ searchParams }) => {
           ))}
         </tbody>
       </table>
-      <Pagination numUsers={numUsers} />
+      <Pagination count={numUsers} />
     </div>
   );
 };
