@@ -1,7 +1,10 @@
+'use server';
+
 import { revalidatePath } from 'next/cache';
-import { User } from './models';
+import { Product, User } from './models';
 import { connectToDB } from './utils';
 import { redirect } from 'next/navigation';
+import bcrypt from 'bcrypt';
 
 // Using server actions add a new user to mongoDB
 
@@ -14,10 +17,14 @@ export const addUser = async (formData) => {
   try {
     connectToDB();
 
+    // hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const newUser = new User({
       username,
       email,
-      password,
+      password: hashedPassword,
       phone,
       address,
       isAdmin,
@@ -32,4 +39,32 @@ export const addUser = async (formData) => {
 
   revalidatePath('/dashboard/users');
   redirect('/dashboard/users');
+};
+
+// Using server actions add a new user to mongoDB
+
+export const addProduct = async (formData) => {
+  const { title, desc, price, stock, color, size } =
+    Object.fromEntries(formData);
+
+  try {
+    connectToDB();
+
+    const newProduct = new Product({
+      title,
+      desc,
+      price,
+      stock,
+      color,
+      size,
+    });
+
+    await newProduct.save();
+  } catch (error) {
+    console.log(error);
+    throw new Error('Failed to create product');
+  }
+
+  revalidatePath('/dashboard/products');
+  redirect('/dashboard/products');
 };
