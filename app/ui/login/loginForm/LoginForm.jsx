@@ -2,22 +2,18 @@
 
 import { authenticate } from '@/app/lib/actions';
 import styles from './loginForm.module.css';
-import { useState } from 'react';
+import { useFormState } from 'react-dom';
 
 const LoginForm = () => {
-  const handleLogin = async (formData) => {
-    const [err, setErr] = useState();
-    const data = await authenticate(formData);
-    data.error && setErr(data.error);
-  };
+  const [state, formAction] = useFormState(authenticate, undefined);
 
   return (
-    <form action={handleLogin} className={styles.form}>
+    <form action={formAction} className={styles.form}>
       <h1>Login</h1>
       <input type='text' placeholder='Username' name='username' required />
       <input type='password' placeholder='Password' name='password' required />
       <button type='submit'>Login</button>
-      {err && <p>{err}</p>}
+      {state && <p>{state}</p>}
     </form>
   );
 };
